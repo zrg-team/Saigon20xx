@@ -1,0 +1,64 @@
+[
+ {
+  "file": "menu.png",
+  "caption": "The menu: BẮT ĐẦU starts the story, TIẾP TỤC picks up the last save"
+ },
+ {
+  "file": "benthanh.png",
+  "caption": "On foot at the clock-tower gate of Chợ Bến Thành, with a [Z] prompt to hop on a bike"
+ },
+ {
+  "file": "ride.png",
+  "caption": "Riding down Cách Mạng Tháng Tám into the Bến Thành roundabout"
+ },
+ {
+  "file": "hem.png",
+  "caption": "Deep in a hẻm, between tube houses with rooftop gardens"
+ },
+ {
+  "file": "binhtay.png",
+  "caption": "Quận 5, Chợ Lớn: the clock tower of Chợ Bình Tây"
+ },
+ {
+  "file": "tandinh.png",
+  "caption": "Quận 3: the pink Tân Định church"
+ },
+ {
+  "file": "nharong.png",
+  "caption": "Quận 4: Nhà Rồng wharf behind its palms"
+ },
+ {
+  "file": "thuthiem.png",
+  "caption": "Thủ Thiêm: the ferry landing, across the river from Quận 1"
+ },
+ {
+  "file": "night.png",
+  "caption": "After dark: lamps, lit shop fronts and headlights around Bến Thành"
+ },
+ {
+  "file": "pho.png",
+  "caption": "Hungry? [T] at any shop door opens its menu: phở from 10k, at 2004 prices"
+ },
+ {
+  "file": "delivery.png",
+  "caption": "Odd jobs: phở to a customer's door before it goes cold, with a beacon showing the way"
+ },
+ {
+  "file": "baucua.png",
+  "caption": "Bầu cua cá cọp on a sidewalk mat: bet on the dice, shake, win or lose"
+ },
+ {
+  "file": "travel.png",
+  "caption": "At the edge of the map, ĐI ĐẾN ĐÂU? offers the next district and its landmarks"
+ },
+ {
+  "file": "phone.png",
+  "caption": "On a phone, held upright: a thumb stick on the left, the buttons on the right",
+  "tall": true
+ },
+ {
+  "file": "phone-menu.png",
+  "caption": "A shop menu on a phone: up, down and OK under your right thumb",
+  "tall": true
+ }
+]

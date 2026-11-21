@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="vi" data-lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SaiGon 20XX · Một ngày ở Sài Gòn, 2004</title>
+<meta name="description" content="Explore Saigon in 2004. Ride through five districts, take the ferry to Thủ Thiêm, pick up a job or spend the day at the fair. Play free in your browser.">
+<meta property="og:title" content="SaiGon 20XX · Một ngày ở Sài Gòn, 2004">
+<meta property="og:description" content="Chạy xe qua năm quận, đón phà sang Thủ Thiêm, tìm việc hoặc ghé hội chợ. Chơi miễn phí ngay trên trình duyệt.">
+<meta property="og:image" content="https://zrg-team.github.io/Saigon20xx/media/card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://zrg-team.github.io/Saigon20xx/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#291745">
+<link rel="icon" type="image/png" href="media/icon.png">
+<link rel="apple-touch-icon" href="media/icon-512.png">
+<link rel="preload" href="fonts/saigon-text.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/saigon-sign.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&display=swap" rel="stylesheet">
+<script>
+  // The language before the first paint: ?lang=, then the game's own choice (same origin: the game at play/ reads and
+  // writes saigon20xx.lang), then the browser's. Choosing on the site also sets the game's language.
+  (function () {
+    var l = null;
+    try { l = new URLSearchParams(location.search).get("lang") || localStorage.getItem("saigon20xx.lang"); } catch (e) {}
+    if (l !== "vi" && l !== "en") l = (navigator.languages || [navigator.language || ""]).some(function (x) { return /^vi/i.test(x); }) ? "vi" : "en";
+    document.documentElement.dataset.lang = l;
+    document.documentElement.lang = l;
+    document.documentElement.classList.add("js");
+  })();
+</script>
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<a class="skip" href="#main"><span lang="vi">Bỏ qua, xuống nội dung</span><span lang="en">Skip to content</span></a>
+
+<!-- the bar that comes down once the menu scrolls away -->
+<nav class="bar" id="bar" aria-label="Site">
+  <a class="bar-logo" href="#top" aria-label="SaiGon 20XX"><img src="media/menu/logo.png" alt="" width="156" height="70"></a>
+  <div class="bar-links">
+    <a href="#day"><span lang="vi">Một ngày</span><span lang="en">A day</span></a>
+    <a href="#districts"><span lang="vi">Năm quận</span><span lang="en">Districts</span></a>
+    <a href="#life"><span lang="vi">Chơi gì?</span><span lang="en">Things to do</span></a>
+    <a href="#inside"><span lang="vi">Phố và nhà</span><span lang="en">Streets and homes</span></a>
+    <a href="#phone"><span lang="vi">Điện thoại</span><span lang="en">Phone</span></a>
+    <a href="#news"><span lang="vi">Cập nhật</span><span lang="en">Updates</span></a>
+  </div>
+  <button class="lang-btn" type="button" data-lang-toggle aria-label="Tiếng Việt / English"><b>VI</b><i>EN</i></button>
+  <a class="btn btn-sm" href="play/" data-play><span lang="vi">Chơi</span><span lang="en">Play</span></a>
+</nav>
+
+<!-- ============================================================ the menu: the game's own scene, drifting -->
+<header class="hero" id="top">
+  <canvas class="scene" id="hero-scene" aria-hidden="true"></canvas>
+  <div class="hero-ui" id="hero-ui">
+    <h1 class="logo"><img src="media/menu/logo.png" alt="SaiGon 20XX" width="156" height="70" id="hero-logo"></h1>
+    <p class="tagline"><span lang="vi">Khám phá Sài Gòn năm 2004</span><span lang="en">Explore Saigon in 2004</span></p>
+    <div class="menu" id="menu" role="menu" aria-label="Menu">
+      <span class="marker" aria-hidden="true">&gt;</span>
+      <a class="row" href="play/" role="menuitem" data-play data-row="0">
+        <span lang="vi" data-continue-vi>VÀO CHƠI</span><span lang="en" data-continue-en>PLAY NOW</span>
+      </a>
+      <a class="row" href="#about" role="menuitem" data-row="1"><span lang="vi">XEM THÀNH PHỐ</span><span lang="en">SEE THE CITY</span></a>
+      <button class="row" type="button" role="menuitem" data-row="2" data-lang-toggle>
+        <span lang="vi">&lt; TIẾNG VIỆT &gt;</span><span lang="en">&lt; ENGLISH &gt;</span>
+      </button>
+    </div>
+    <p class="save-line" id="save-line" hidden></p>
+    <p class="help"><span lang="vi">Miễn phí · chơi ngay trên trình duyệt</span><span lang="en">Free · plays in your browser</span></p>
+  </div>
+  <p class="version" id="version" hidden></p>
+  <a class="scroll-cue" href="#about" aria-label="Scroll"><span></span></a>
+</header>
+
+<!-- a shop's scrolling LED sign -->
+<div class="led" aria-hidden="true">
+  <div class="led-track">
+    <div class="led-run" lang="vi"><span>Mới</span><span>Mời quý khách vô quán</span><span>Phở bò 10.000đ</span><span>Cà phê sữa đá 4.000đ</span><span>Chiều nay có mưa</span><span>Sửa xe, vá xe</span></div>
+    <div class="led-run" lang="en"><span>New</span><span>Come on in</span><span>Phở bò 10,000đ</span><span>Iced coffee 4,000đ</span><span>Rain this afternoon</span><span>Bike repairs</span></div>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ============================================================ hello -->
+  <section class="sec intro" id="about">
+    <div class="wrap intro-grid">
+      <div class="reveal">
+        <p class="kicker"><span lang="vi">T5 1/7/2004 · 16:45 · Q.1</span><span lang="en">Thu 1/7/2004 · 16:45 · Q.1</span></p>
+        <h2><span class="sign s-red"><span lang="vi">Xin chào, Sài Gòn</span><span lang="en">Xin chào, Sài Gòn</span></span></h2>
+        <div lang="vi">
+          <p class="lead">Xe khách dừng bánh ở Quận 1, Sài Gòn. Bạn, Út, mới từ quê lên cái gì cũng mới cũng lạ với bạn.</p>
+          <p>Ngày đầu chắc bạn sẽ đi tìm mua cái điện thoại nào rẻ rẻ cho tiện liên lạc, rồi đi vòng vòng coi Sài Gòn có gì.</p>
+        </div>
+        <div lang="en">
+          <p class="lead">The bus pulls up in District 1, Saigon. You're Út, fresh from the countryside, and everything feels new.</p>
+          <p>On your first day, you'll probably look for a cheap phone to keep in touch, then wander around and see what Saigon has to offer.</p>
+        </div>
+        <p class="cta-row">
+          <a class="btn" href="play/" data-play><span class="tri" aria-hidden="true"></span><span lang="vi">Vào chơi</span><span lang="en">Play now</span></a>
+          <a class="btn btn-ghost" href="#day"><span lang="vi">Xem một ngày</span><span lang="en">Watch a day go by</span></a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ a day -->
+  <section class="sec day" id="day">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="kicker">06:20 → 21:30</p>
+        <h2><span class="sign s-blue"><span lang="vi">Một ngày ở Sài Gòn</span><span lang="en">A day in Saigon</span></span></h2>
+        <p class="lead" lang="vi">Kéo thanh thời gian để xem cùng một góc phố từ lúc còn sương tới khi hàng quán lên đèn.</p>
+        <p class="lead" lang="en">Drag the time slider to see the same street corner from the early morning fog to the evening lights.</p>
+      </div>
+      <div class="day-box reveal" id="daybox">
+        <div class="frame day-frame" id="day-frame">
+          <img src="media/web/day-fog.webp" alt="" data-stop="0" width="1706" height="960" loading="lazy" decoding="async">
+          <img src="media/web/day-noon.webp" alt="" data-stop="1" width="1706" height="960" loading="lazy" decoding="async">
+          <img src="media/web/day-storm.webp" alt="" data-stop="2" width="1706" height="960" loading="lazy" decoding="async">
+          <img src="media/web/day-golden.webp" alt="" data-stop="3" width="1706" height="960" loading="lazy" decoding="async">
+          <img src="media/web/day-dusk.webp" alt="" data-stop="4" width="1706" height="960" loading="lazy" decoding="async">
+          <img src="media/web/day-night.webp" alt="" data-stop="5" width="1706" height="960" loading="lazy" decoding="async">
+        </div>
+        <div class="day-ctl">
+          <div class="day-bar">
+            <div class="chip clock"><span id="day-clock">06:20</span></div>
+            <input type="range" id="day-range" min="360" max="1320" step="1" value="380" aria-label="Giờ / Hour">
+          </div>
+          <ol class="day-stops" id="day-stops">
+            <li><button type="button" data-stop="0" data-min="380">06:20<i lang="vi">Sương mù</i><i lang="en">Fog</i></button></li>
+            <li><button type="button" data-stop="1" data-min="760">12:40<i lang="vi">Nắng gắt</i><i lang="en">Noon heat</i></button></li>
+            <li><button type="button" data-stop="2" data-min="940">15:40<i lang="vi">Mưa giông</i><i lang="en">Storm</i></button></li>
+            <li><button type="button" data-stop="3" data-min="1060">17:40<i lang="vi">Nắng chiều</i><i lang="en">Golden hour</i></button></li>
+            <li><button type="button" data-stop="4" data-min="1115">18:35<i lang="vi">Lên đèn</i><i lang="en">Lamps on</i></button></li>
+            <li><button type="button" data-stop="5" data-min="1290">21:30<i lang="vi">Về đêm</i><i lang="en">Night</i></button></li>
+          </ol>
+          <div class="day-cap" aria-live="polite">
+            <p data-stop="0"><span lang="vi">Sáng sớm sương mù còn phủ trên phố, nắng lên một chút là tan hết.</span><span lang="en">Morning fog hangs over the street until the sun comes up and burns it off.</span></p>
+            <p data-stop="1"><span lang="vi">Trưa nắng gắt, có chú xe ôm nằm ngủ trên yên xe.</span><span lang="en">The sun is strong at noon. A motorbike taxi driver naps on his seat.</span></p>
+            <p data-stop="2"><span lang="vi">Mưa đổ xuống, người đi đường tấp vào trú dưới mái hiên.</span><span lang="en">When the rain starts coming down, people duck under the shop awnings.</span></p>
+            <p data-stop="3"><span lang="vi">Chiều xuống nắng vàng, người ta tan sở nên xe bắt đầu đông.</span><span lang="en">The late sun turns gold, and as offices let out the traffic builds.</span></p>
+            <p data-stop="4"><span lang="vi">Trời vừa chạng vạng là quán xá hai bên đường lên đèn.</span><span lang="en">As soon as dusk falls, the shops along the street light up.</span></p>
+            <p data-stop="5"><span lang="vi">Khuya rồi mà đầu hẻm vẫn còn quán mở cửa.</span><span lang="en">It’s late, and there’s still a shop open at the mouth of the alley.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ five districts -->
+  <section class="sec districts" id="districts">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="kicker">Q.1 · Q.3 · Q.5 · Q.4 · Q.2</p>
+        <h2><span class="sign s-green"><span lang="vi">Khám phá năm quận</span><span lang="en">Explore five districts</span></span></h2>
+        <p class="lead" lang="vi">Từ Quận 1, chạy xe qua Chợ Lớn hay qua cầu sang Khánh Hội. Muốn sang Thủ Thiêm thì ra bến Bạch Đằng đón phà.</p>
+        <p class="lead" lang="en">From District 1, ride to Chợ Lớn or cross the bridge to Khánh Hội. To reach Thủ Thiêm, take the ferry from Bạch Đằng Wharf.</p>
+      </div>
+      <div class="dist reveal" id="dist">
+        <div class="dist-tabs" role="tablist" aria-label="Districts">
+          <button role="tab" type="button" aria-selected="true" data-d="0" style="--acc:#1f5fae"><b>QUẬN 1</b><i lang="vi">Trung tâm</i><i lang="en">The centre</i></button>
+          <button role="tab" type="button" aria-selected="false" data-d="1" style="--acc:#40965a"><b>QUẬN 3</b><i lang="vi">Tân Định, biệt thự</i><i lang="en">Tân Định, villas</i></button>
+          <button role="tab" type="button" aria-selected="false" data-d="2" style="--acc:#d7263d"><b>QUẬN 5</b><i lang="vi">Chợ Lớn</i><i lang="en">Chợ Lớn</i></button>
+          <button role="tab" type="button" aria-selected="false" data-d="3" style="--acc:#287896"><b>QUẬN 4</b><i lang="vi">Khánh Hội</i><i lang="en">Khánh Hội</i></button>
+          <button role="tab" type="button" aria-selected="false" data-d="4" style="--acc:#967832"><b>QUẬN 2</b><i lang="vi">Thủ Thiêm</i><i lang="en">Thủ Thiêm</i></button>
+        </div>
+        <div class="dist-panels">
+          <article class="dist-panel" data-d="0" role="tabpanel" style="--acc:#1f5fae">
+            <button class="frame zoom" type="button" data-zoom><img src="media/web/benthanh.webp" alt="Cổng chợ Bến Thành / The Bến Thành market gate" width="1706" height="960" loading="lazy" decoding="async"></button>
+            <div class="dist-info">
+              <h3 class="title-card">QUẬN 1</h3>
+              <p lang="vi">Chạy xe ngang chợ Bến Thành rồi vòng ra bến Bạch Đằng hóng gió.</p>
+              <p lang="en">Ride past Bến Thành Market and head to Bạch Đằng Wharf for the river breeze.</p>
+              <ul class="marks"><li>Chợ Bến Thành</li><li>Nhà thờ Đức Bà</li><li>Nhà hát Thành phố</li><li>Bến Bạch Đằng</li></ul>
+              <img class="map" src="media/maps/quan1.png" alt="Bản đồ Quận 1 / Map of Quận 1" width="229" height="171" loading="lazy">
+            </div>
+          </article>
+          <article class="dist-panel" data-d="1" role="tabpanel" style="--acc:#40965a" hidden>
+            <button class="frame zoom" type="button" data-zoom><img src="media/web/tandinh.webp" alt="Nhà thờ Tân Định / Tân Định church" width="1706" height="960" loading="lazy" decoding="async"></button>
+            <div class="dist-info">
+              <h3 class="title-card">QUẬN 3</h3>
+              <p lang="vi">Từ nhà thờ Tân Định, chạy qua mấy dãy biệt thự cũ dưới hàng cây.</p>
+              <p lang="en">Start at Tân Định Church, then ride past old villas on tree-lined streets.</p>
+              <ul class="marks"><li>Chùa Vĩnh Nghiêm</li><li>Nhà thờ Tân Định</li><li>Bảo tàng Chiến tranh</li><li>Chợ Bàn Cờ</li></ul>
+              <img class="map" src="media/maps/quan3.png" alt="Bản đồ Quận 3 / Map of Quận 3" width="229" height="171" loading="lazy">
+            </div>
+          </article>
+          <article class="dist-panel" data-d="2" role="tabpanel" style="--acc:#d7263d" hidden>
+            <button class="frame zoom" type="button" data-zoom><img src="media/web/binhtay.webp" alt="Chợ Bình Tây / Bình Tây market" width="1706" height="960" loading="lazy" decoding="async"></button>
+            <div class="dist-info">
+              <h3 class="title-card">QUẬN 5 · CHỢ LỚN</h3>
+              <p lang="vi">Ghé chợ Bình Tây coi hàng quán. Tối đến, chạy qua mấy dãy phố treo đèn lồng.</p>
+              <p lang="en">Browse the stalls at Bình Tây Market, then ride through the lantern-lit streets after dark.</p>
+              <ul class="marks"><li>Chợ Bình Tây</li><li>Hội quán Thiên Hậu</li><li>Nhà thờ Cha Tam</li><li>Bệnh viện Chợ Rẫy</li></ul>
+              <img class="map" src="media/maps/quan5.png" alt="Bản đồ Quận 5 / Map of Quận 5" width="229" height="171" loading="lazy">
+            </div>
+          </article>
+          <article class="dist-panel" data-d="3" role="tabpanel" style="--acc:#287896" hidden>
+            <button class="frame zoom" type="button" data-zoom><img src="media/web/nharong.webp" alt="Bến Nhà Rồng / Nhà Rồng wharf" width="1706" height="960" loading="lazy" decoding="async"></button>
+            <div class="dist-info">
+              <h3 class="title-card">QUẬN 4 · KHÁNH HỘI</h3>
+              <p lang="vi">Qua cầu sang Khánh Hội, chạy dọc bờ sông tới bến Nhà Rồng.</p>
+              <p lang="en">Cross the bridge into Khánh Hội and follow the river to Nhà Rồng Wharf.</p>
+              <ul class="marks"><li>Bến Nhà Rồng</li><li>Chợ Xóm Chiếu</li><li>Cảng Sài Gòn</li></ul>
+              <img class="map" src="media/maps/quan4.png" alt="Bản đồ Quận 4 / Map of Quận 4" width="229" height="171" loading="lazy">
+            </div>
+          </article>
+          <article class="dist-panel" data-d="4" role="tabpanel" style="--acc:#967832" hidden>
+            <button class="frame zoom" type="button" data-zoom><img src="media/web/thuthiem.webp" alt="Bến phà Thủ Thiêm / The Thủ Thiêm ferry landing" width="1706" height="960" loading="lazy" decoding="async"></button>
+            <div class="dist-info">
+              <h3 class="title-card">QUẬN 2 · THỦ THIÊM</h3>
+              <p lang="vi">Xuống phà ở Thủ Thiêm, đi dọc bờ sông qua mấy căn nhà sàn và ghe đậu gần bến.</p>
+              <p lang="en">Step off the ferry in Thủ Thiêm and follow the river past stilt houses and boats moored by the landing.</p>
+              <ul class="marks"><li>Bến phà Thủ Thiêm</li><li>Nhà thờ Thủ Thiêm</li><li>Chợ Thủ Thiêm</li></ul>
+              <img class="map" src="media/maps/thuthiem.png" alt="Bản đồ Thủ Thiêm / Map of Thủ Thiêm" width="229" height="171" loading="lazy">
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ things to do -->
+  <section class="sec life" id="life">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2><span class="sign s-yellow"><span lang="vi">Sài Gòn có gì chơi?</span><span lang="en">Out and about in Saigon</span></span></h2>
+        <p class="lead" lang="vi">Có thể kiếm việc trong phố, rảnh thì ra công viên đá cầu. Hôm nay đi đâu là tùy bạn.</p>
+        <p class="lead" lang="en">Pick up a job in town or head to the park for đá cầu. Where you go today is up to you.</p>
+      </div>
+      <div class="bento">
+        <figure class="card big reveal">
+          <button class="frame zoom" type="button" data-zoom><img src="media/delivery.png" alt="Út giao phở trên đường Hồ Tùng Mậu / Út delivering phở on Hồ Tùng Mậu Street" width="1920" height="1080" loading="lazy" decoding="async"></button>
+          <figcaption>
+            <h3><span lang="vi">Việc làm</span><span lang="en">Jobs</span></h3>
+            <p lang="vi">Chạy xe ôm chở khách hoặc giao đồ ăn qua mấy con hẻm. Muốn đổi việc thì thử bán vé số, sửa xe hay hớt tóc dạo.</p>
+            <p lang="en">Take passengers on your motorbike or deliver food through the alleys. Try selling lottery tickets, fixing bikes or cutting hair on the sidewalk.</p>
+          </figcaption>
+        </figure>
+        <div class="card note reveal">
+          <h3><span lang="vi">Nhiều hoạt động</span><span lang="en">Things to do</span></h3>
+          <p lang="vi">Ghé tiệm net, đánh một ván bida hay chơi lô tô ở hội chợ. Hôm nào mệt, muốn ngồi yên một chỗ thì qua Thủ Thiêm thả câu chill chill.</p>
+          <p lang="en">Drop by an internet café, play billiards or join a game of lô tô at the fair. When you're tired and feel like taking it easy, go cast a line in Thủ Thiêm.</p>
+        </div>
+        <div class="card note reveal">
+          <h3><span lang="vi">Cửa hàng khắp nơi</span><span lang="en">Shops around town</span></h3>
+          <p lang="vi">Ghé tiệm lựa một chiếc điện thoại nắp gập, mua bộ đồ mới rồi tạt ngang quán cơm tấm ăn trưa.</p>
+          <p lang="en">Pick out a flip phone, buy a new outfit, then stop for cơm tấm at lunch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ inside -->
+  <section class="sec inside" id="inside">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2><span class="sign s-teal"><span lang="vi">Từ mặt phố vào nhà</span><span lang="en">Inside shops and homes</span></span></h2>
+        <p class="lead" lang="vi">Mỗi tiệm bày biện một kiểu. Bạn có thể ghé xem và khám phá tự do.</p>
+        <p class="lead" lang="en">Every shop looks a little different inside. Feel free to pop in and look around.</p>
+      </div>
+      <div class="inside-grid">
+        <figure class="shot-card reveal">
+          <button class="frame zoom" type="button" data-zoom><img src="media/web/shop-grocery.webp" alt="Kệ hàng trong tiệm tạp hóa / Shelves inside a grocery shop" width="800" height="600" loading="lazy" decoding="async"></button>
+          <figcaption><h3><span lang="vi">Tiệm tạp hóa</span><span lang="en">Grocery shop</span></h3></figcaption>
+        </figure>
+        <figure class="shot-card reveal">
+          <button class="frame zoom" type="button" data-zoom><img src="media/web/shop-tailor.webp" alt="Vải và bàn may trong tiệm may / Fabrics and sewing tables at the tailor shop" width="640" height="480" loading="lazy" decoding="async"></button>
+          <figcaption><h3><span lang="vi">Tiệm may</span><span lang="en">Tailor shop</span></h3></figcaption>
+        </figure>
+        <figure class="shot-card reveal">
+          <button class="frame zoom" type="button" data-zoom><img src="media/web/shop-net.webp" alt="Khách ngồi trước máy tính trong quán net / Customers at computers in an internet café" width="640" height="480" loading="lazy" decoding="async"></button>
+          <figcaption><h3><span lang="vi">Quán net</span><span lang="en">Internet café</span></h3></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ sports and games -->
+  <section class="sec play" id="play">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2><span class="sign s-orange"><span lang="vi">Ngoài sân, ngoài phố</span><span lang="en">On the pitch and the street</span></span></h2>
+      </div>
+      <div class="play-grid">
+        <figure class="shot-card reveal">
+          <button class="frame zoom" type="button" data-zoom><img src="media/web/football-match.webp" alt="Cầu thủ tranh bóng trên sân / Players chasing the ball" width="1280" height="720" loading="lazy" decoding="async"></button>
+          <figcaption>
+            <h3><span lang="vi">Đá banh 5 người</span><span lang="en">Five-a-side football</span></h3>
+            <p lang="vi">Ghé công viên 23/9 đá banh 5 người. Muốn thi đấu thì đăng ký giải phường.</p>
+            <p lang="en">Join a five-a-side match at 23/9 Park, or sign up for the neighbourhood cup.</p>
+          </figcaption>
+        </figure>
+        <figure class="shot-card reveal">
+          <button class="frame zoom" type="button" data-zoom><img src="media/web/baucua-street.webp" alt="Người chơi ngồi quanh chiếu bầu cua ngoài vỉa hè / Players gathered around a bầu cua mat on the sidewalk" width="1280" height="720" loading="lazy" decoding="async"></button>
+          <figcaption>
+            <h3><span lang="vi">Bầu cua vỉa hè</span><span lang="en">Sidewalk bầu cua</span></h3>
+            <p lang="vi">Ghé chiếu bầu cua ngoài vỉa hè, ngồi chơi một ván với mấy người trong xóm.</p>
+            <p lang="en">Join the neighbours for a round of bầu cua on the sidewalk.</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ people -->
+  <section class="sec people" id="people">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="kicker">xe ôm · vé số · gánh hàng · CSGT</p>
+        <h2><span class="sign s-pink"><span lang="vi">Người Sài Gòn</span><span lang="en">The people</span></span></h2>
+        <p class="lead" lang="vi">Giờ tan học, học sinh áo dài đi ngang mấy chú xe ôm đang chờ khách. Ghé ăn vài lần ở cùng một quán, chủ quán sẽ nhớ mặt bạn.</p>
+        <p class="lead" lang="en">After school, students in áo dài pass the motorbike taxi stand. Come back to the same eatery a few times and the owner will start to recognise you.</p>
+      </div>
+      <figure class="frame cast reveal"><img class="pixel" src="media/cast.png" alt="Xe máy, xe đạp, xích lô và người Sài Gòn bằng voxel / Voxel motorbikes, a bicycle, a cyclo and Saigon street people" width="1280" height="613" loading="lazy" decoding="async"></figure>
+    </div>
+  </section>
+
+  <!-- ============================================================ phone -->
+  <section class="sec phone" id="phone">
+    <div class="wrap phone-grid">
+      <div class="reveal">
+        <p class="kicker">iPhone · Android · PC · Mac</p>
+        <h2><span class="sign s-blue"><span lang="vi">Chơi trên điện thoại</span><span lang="en">Play on your phone</span></span></h2>
+        <p lang="vi">Mở link trên điện thoại là chơi được. Game có nút điều khiển cảm ứng.</p>
+        <p lang="en">Open the link on your phone to play in your browser with touch controls.</p>
+        <div class="link-box">
+          <p><b lang="vi">Mở trên điện thoại</b><b lang="en">Open it on your phone</b></p>
+          <a class="url" href="play/">zrg-team.github.io/Saigon20xx</a>
+          <button class="btn btn-ghost btn-sm" type="button" id="share"><span lang="vi">Gửi link</span><span lang="en">Share the link</span></button>
+        </div>
+      </div>
+      <div class="phones reveal">
+        <figure class="handset"><img src="media/web/phone-menu.webp" alt="Menu trên điện thoại / The menu on a phone" width="585" height="1266" loading="lazy" decoding="async"></figure>
+        <figure class="handset tilt-a"><img src="media/web/phone-ride.webp" alt="Chạy xe trên điện thoại / Riding on a phone" width="585" height="1266" loading="lazy" decoding="async"></figure>
+        <figure class="handset tilt-b"><img src="media/web/phone-shop.webp" alt="Quán trên điện thoại / A shop on a phone" width="585" height="1266" loading="lazy" decoding="async"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ true to 2004 -->
+  <section class="sec era" id="era">
+    <div class="wrap">
+      <div class="head reveal">
+        <p class="kicker">Năm Giáp Thân</p>
+        <h2><span class="sign s-red"><span lang="vi">Sài Gòn năm 2004</span><span lang="en">Saigon in 2004</span></span></h2>
+        <p class="lead" lang="vi">Ai ở Sài Gòn hồi đó chắc còn nhớ:</p>
+        <p class="lead" lang="en">If you were in Saigon back then, you might remember:</p>
+      </div>
+      <ul class="notes">
+        <li class="paper reveal"><p lang="vi">Hồi đó vạch giữa đường còn sơn màu <b>trắng</b>.</p><p lang="en">Back then the centre lines were still painted <b>white</b>.</p></li>
+        <li class="paper reveal"><p lang="vi">Nhiều người đi xe máy đội <b>nón vải</b>, đeo khẩu trang và găng tay dài.</p><p lang="en">Many motorbike riders wore <b>cloth hats</b>, face masks and long gloves.</p></li>
+        <li class="paper reveal"><p lang="vi">Số điện thoại trên bảng hiệu chỉ có <b>7 số</b> thôi.</p><p lang="en">Phone numbers on shop signs had only <b>7 digits</b>.</p></li>
+        <li class="paper reveal"><p lang="vi">Mùa <b>Euro 2004</b>, hai giờ sáng mà có bàn thắng là cả xóm la om sòm.</p><p lang="en">During <b>Euro 2004</b>, a goal at two in the morning had the whole street shouting.</p></li>
+        <li class="paper reveal"><p lang="vi">Buổi chiều có người ngồi dò <b>vé số</b>. Mùng một và ngày rằm, nhiều nhà thắp nhang trước cửa.</p><p lang="en">People checked their <b>lottery tickets</b> in the afternoon. On the first and fifteenth days of the lunar month, many households lit incense by the door.</p></li>
+        <li class="paper reveal"><p lang="vi">Có thể chơi <b>rắn săn mồi</b> ngay trên điện thoại nút bấm màn hình trắng đen.</p><p lang="en">You could play <b>Snake</b> on a keypad phone with a black-and-white screen.</p></li>
+      </ul>
+      <div class="years reveal">
+        <h3><span lang="vi">Vì sao là 20XX?</span><span lang="en">Why 20XX?</span></h3>
+        <p lang="vi">Chương đầu diễn ra năm 2004. Những chương sau sẽ trở lại các con phố này vào những năm khác.</p>
+        <p lang="en">The first chapter takes place in 2004. Later chapters return to the same streets in other years.</p>
+        <ol class="timeline">
+          <li class="now"><b>2004</b><i lang="vi">Đang chơi được</i><i lang="en">Playable now</i></li>
+          <li><b>2008</b><i lang="vi">Dự kiến</i><i lang="en">Planned</i></li>
+          <li><b>2011</b><i lang="vi">Dự kiến</i><i lang="en">Planned</i></li>
+          <li><b>2015</b><i lang="vi">Dự kiến</i><i lang="en">Planned</i></li>
+          <li><b>2024</b><i lang="vi">Dự kiến</i><i lang="en">Planned</i></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ controls -->
+  <section class="sec controls" id="controls">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2><span class="sign s-dark"><span lang="vi">Cách chơi</span><span lang="en">Controls</span></span></h2>
+      </div>
+      <div class="ctl-tabs reveal" role="tablist" aria-label="Controls">
+        <button role="tab" type="button" aria-selected="true" data-ctl="keys"><span lang="vi">Bàn phím</span><span lang="en">Keyboard</span></button>
+        <button role="tab" type="button" aria-selected="false" data-ctl="touch"><span lang="vi">Cảm ứng</span><span lang="en">Touch</span></button>
+      </div>
+      <div class="keys reveal" data-ctl-panel="keys">
+        <div class="key-row"><span class="caps"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> <kbd>←↑↓→</kbd></span><span lang="vi">Đi bộ, chạy xe</span><span lang="en">Walk, ride, drive</span></div>
+        <div class="key-row"><span class="caps"><kbd>Shift</kbd></span><span lang="vi">Chạy bộ</span><span lang="en">Run (on foot)</span></div>
+        <div class="key-row"><span class="caps"><kbd>Z</kbd><kbd>E</kbd><kbd>Enter</kbd></span><span lang="vi">Lên xe, xuống xe, vào nhà</span><span lang="en">Get on or off, go in</span></div>
+        <div class="key-row"><span class="caps"><kbd>Space</kbd></span><span lang="vi">Phanh tay, drift</span><span lang="en">Handbrake, drift</span></div>
+        <div class="key-row"><span class="caps"><kbd>T</kbd></span><span lang="vi">Nói chuyện, mua, nhận việc, đổ xăng</span><span lang="en">Talk, buy, take a job, fill up</span></div>
+        <div class="key-row"><span class="caps"><kbd>H</kbd></span><span lang="vi">Bóp còi</span><span lang="en">Honk</span></div>
+        <div class="key-row"><span class="caps"><kbd>F</kbd></span><span lang="vi">Xô, vung đồ đang cầm</span><span lang="en">Shove, swing what you hold</span></div>
+        <div class="key-row"><span class="caps"><kbd>G</kbd><kbd>Q</kbd></span><span lang="vi">Nhặt hoặc đặt xuống, ném</span><span lang="en">Pick up or put down, throw</span></div>
+        <div class="key-row"><span class="caps"><kbd>J</kbd></span><span lang="vi">Sổ tay</span><span lang="en">Notebook</span></div>
+        <div class="key-row"><span class="caps"><kbd>I</kbd></span><span lang="vi">Túi đồ</span><span lang="en">Bag</span></div>
+        <div class="key-row"><span class="caps"><kbd>M</kbd></span><span lang="vi">Bản đồ</span><span lang="en">Map</span></div>
+        <div class="key-row"><span class="caps"><kbd>B</kbd></span><span lang="vi">Bản thân</span><span lang="en">Your stats</span></div>
+        <div class="key-row"><span class="caps"><kbd>N</kbd></span><span lang="vi">Cho thời gian trôi nhanh</span><span lang="en">Let time pass</span></div>
+        <div class="key-row"><span class="caps"><kbd>V</kbd></span><span lang="vi">Đổi góc nhìn</span><span lang="en">Camera view</span></div>
+        <div class="key-row"><span class="caps"><kbd>Esc</kbd><kbd>P</kbd></span><span lang="vi">Tạm dừng, cài đặt</span><span lang="en">Pause, settings</span></div>
+        <div class="key-row"><span class="caps"><kbd>R</kbd></span><span lang="vi">Chơi lại quận này</span><span lang="en">Restart the district</span></div>
+      </div>
+      <div class="keys touch reveal" data-ctl-panel="touch" hidden>
+        <div class="key-row"><span class="caps"><kbd>◯</kbd></span><span lang="vi">Cần lái bên trái: đẩy lên là ga, kéo xuống là phanh, đẩy hết cỡ là chạy</span><span lang="en">Stick on the left: up for throttle, down to brake, all the way to run</span></div>
+        <div class="key-row"><span class="caps"><kbd>●</kbd></span><span lang="vi">Nút lớn: lên xe, hoặc việc đang hiện trên màn hình</span><span lang="en">Big button: get on, or whatever the prompt offers</span></div>
+        <div class="key-row"><span class="caps"><kbd>●</kbd></span><span lang="vi">Đi bộ: Nói chuyện, Xô, Nhặt, Ném</span><span lang="en">On foot: Talk, Shove, Pick up, Throw</span></div>
+        <div class="key-row"><span class="caps"><kbd>●</kbd></span><span lang="vi">Trên xe: Phanh tay (giữ), Bóp còi, Xuống xe</span><span lang="en">Riding: Handbrake (hold), Honk, Get off</span></div>
+        <div class="key-row"><span class="caps"><kbd>●</kbd></span><span lang="vi">Sổ tay và Túi đồ dưới ngón cái, Cài đặt ở góc trên</span><span lang="en">Notebook and Bag under your thumb, Settings in the top corner</span></div>
+        <div class="key-row"><span class="caps"><kbd>◎</kbd></span><span lang="vi">Chạm radar để mở bản đồ, chạm Máu / Sức để xem Bản thân</span><span lang="en">Tap the radar for the map, tap Máu / Sức for your stats</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ what's new -->
+  <section class="sec news" id="news">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2><span class="sign s-green"><span lang="vi">Cập nhật</span><span lang="en">What's new</span></span></h2>
+      </div>
+      <ol class="log">
+        <li class="reveal">
+          <h3 class="log-version">v1.0.0 <small><span lang="vi">Bản dựng 36</span><span lang="en">Build 36</span></small></h3>
+          <ul lang="vi">
+            <li>Có thể vào quán và đi cầu thang lên lầu</li>
+            <li>Sáng có sương, trưa nắng gắt, chiều có mưa giông. Người đi đường tìm bóng mát và chỗ trú mưa.</li>
+            <li>Út biết đói và mệt. Hàng xóm nhớ mặt, quán quen cho ghi sổ.</li>
+            <li>Đá banh, cầu lông, đá cầu, có cả giải phường</li>
+            <li>Đồ đạc nằm trong túi áo, trên xe, trong phòng trọ</li>
+            <li>Bản đồ mới, cuốn sổ tay có dòng kẻ</li>
+            <li>Bảng hiệu đủ kiểu, nhà mặt tiền to nhỏ, đường một chiều</li>
+          </ul>
+          <ul lang="en">
+            <li>Walk into the shops and up the stairs</li>
+            <li>Morning fog, midday heat and afternoon storms. People look for shade or shelter.</li>
+            <li>Út gets hungry and tired. Neighbours remember him, and shops where he’s a regular let him pay later.</li>
+            <li>Football, badminton, đá cầu, and a ward cup</li>
+            <li>Keep your things in your pockets, on your bike or in your room</li>
+            <li>A new map and a ruled paper notebook</li>
+            <li>All kinds of shop signs, house fronts of every width, one-way streets</li>
+          </ul>
+        </li>
+        <li class="reveal">
+          <h3 class="log-version">v1.0.0 <small><span lang="vi">Bản dựng 12</span><span lang="en">Build 12</span></small></h3>
+          <ul lang="vi">
+            <li>Năm quận, chạy qua lại được</li>
+            <li>Ngày và đêm: đèn đường, đèn xe, bảng hiệu sáng</li>
+            <li>Quán xá, việc làm, trò chơi vỉa hè</li>
+            <li>Chơi được trên điện thoại</li>
+            <li>Có tiếng Việt và tiếng Anh</li>
+            <li>Người ta cầm đồ, nắm tay, cõng nhau</li>
+            <li>Ai cũng có nghề, có giờ giấc riêng</li>
+          </ul>
+          <ul lang="en">
+            <li>Five districts you can ride between</li>
+            <li>Day and night: street lamps, headlights, lit signs</li>
+            <li>Shops, odd jobs, street games</li>
+            <li>Plays on phones</li>
+            <li>Vietnamese and English</li>
+            <li>People carry things, hold hands, give piggybacks</li>
+            <li>Everyone has a job and their own hours</li>
+          </ul>
+        </li>
+        <li class="reveal">
+          <h3 class="log-version">v1.0.0 <small><span lang="vi">Bản dựng 1</span><span lang="en">Build 1</span></small></h3>
+          <ul lang="vi"><li>Game đổi tên thành SaiGon 20XX. Có thêm nhiều kiểu nhân vật và xe. Bạn có thể thay quần áo.</li></ul>
+          <ul lang="en"><li>The game is now called SaiGon 20XX. More character and vehicle looks, plus clothes you can change.</li></ul>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================================================ the end: the menu's scene again, at night -->
+  <section class="outro" id="outro">
+    <canvas class="scene" id="outro-scene" aria-hidden="true"></canvas>
+    <div class="outro-ui">
+      <h2><span lang="vi">Thử sống ở Sài Gòn năm 2004</span><span lang="en">Spend some time in Saigon, 2004</span></h2>
+      <a class="btn btn-big" href="play/" data-play><span class="tri" aria-hidden="true"></span><span lang="vi">Vào chơi</span><span lang="en">Play now</span></a>
+      <p class="help"><span lang="vi">Miễn phí, khỏi cài</span><span lang="en">Free. Nothing to install.</span></p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <img src="media/menu/logo.png" alt="SaiGon 20XX" width="156" height="70" class="foot-logo">
+    <p lang="vi">SaiGon 20XX là game độc lập. Các thương hiệu trong game đều là hư cấu.</p>
+    <p lang="en">SaiGon 20XX is an independent game. All in-game brands are fictional.</p>
+    <p class="foot-links">
+      <a href="play/" data-play><span lang="vi">Chơi</span><span lang="en">Play</span></a> ·
+      <a href="https://github.com/zrg-team/Saigon20xx">GitHub</a> ·
+      <button type="button" class="linkish" data-lang-toggle><span lang="vi">English</span><span lang="en">Tiếng Việt</span></button>
+      <span class="foot-version" id="foot-version"></span>
+    </p>
+  </div>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Screenshot">
+  <form method="dialog"><button class="close" aria-label="Đóng / Close">✕</button></form>
+  <img id="lightbox-img" alt="">
+</dialog>
+
+<script src="scene.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

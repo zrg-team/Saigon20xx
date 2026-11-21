@@ -1,0 +1,50 @@
+# Publishes the landing page (site/), its images (media/) and the playable web build (play/) to GitHub Pages.
+# Runs on every push to main; `npm run deploy` in the source repo is what pushes here.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble the site
+        run: |
+          mkdir -p _site
+          cp -r site/. _site/
+          cp -r media _site/media
+          if [ -f play/index.html ]; then
+            cp -r play _site/play
+            echo "Playable build: yes ($(find play -type f | wc -l) files)"
+          else
+            mkdir -p _site/play
+            cp site/coming-soon.html _site/play/index.html
+            echo "Playable build: not deployed yet (play/ shows a coming-soon page)"
+          fi
+          touch _site/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
