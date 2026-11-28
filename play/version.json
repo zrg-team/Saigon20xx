@@ -1,0 +1,15 @@
+{
+	"name": "SaiGon 20XX",
+	"version": "1.0.0",
+	"build": "641",
+	"commit": "7af4ac2",
+	"date": "2026-11-28T19:30:41.784Z",
+	"id": "1.0.0-demo-641-7af4ac2",
+	"label": "Bản chơi thử · v1.0.0 · bản dựng 641 · 7af4ac2",
+	"demo": true,
+	"files": 6554,
+	"bytes": 27740617,
+	"firstLoad": 18447509,
+	"later": 6202,
+	"laterBytes": 8963848
+}

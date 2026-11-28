@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SaiGon 20XX</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../media/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* Served at /play/ until the first web build is deployed (see .github/workflows/pages.yml). */
+  :root { --night: #1a1630; --ink: #f3eee6; --pink: #ff4fa3; --gold: #ffd23f; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; display: grid; place-items: center; text-align: center;
+    background: var(--night) url("../media/banner.png") center bottom / cover no-repeat;
+    color: var(--ink); font: 400 17px/1.6 "Be Vietnam Pro", system-ui, sans-serif;
+    padding: 24px max(16px, env(safe-area-inset-left, 0px)) 24px max(16px, env(safe-area-inset-right, 0px));
+  }
+  body::before { content: ""; position: fixed; inset: 0; background: rgba(20, 16, 40, .78); }
+  main { position: relative; max-width: 560px; display: grid; gap: 18px; justify-items: center; }
+  h1 { margin: 0; font: 16px/1.6 "Press Start 2P", monospace; color: var(--gold); text-wrap: balance; }
+  a.btn {
+    display: inline-block; padding: 16px 22px; border-radius: 10px; background: var(--pink); color: #fff;
+    text-decoration: none; font: 12px/1 "Press Start 2P", monospace; box-shadow: 0 6px 0 #a3226a;
+  }
+  a.btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+  img.icon { width: 96px; height: 96px; image-rendering: pixelated; }
+</style>
+</head>
+<body>
+<main>
+  <img class="icon" src="../media/icon.png" alt="">
+  <h1>SaiGon 20XX is coming soon</h1>
+  <a class="btn" href="../">◀ BACK TO THE SITE</a>
+</main>
+</body>
+</html>
